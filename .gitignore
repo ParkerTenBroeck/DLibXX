@@ -1,0 +1,21 @@
+#exclude all unless allowed
+/*
+#gradle
+!/gradle/
+!/gradlew
+!/gradlew.bat
+!/settings.gradle
+!/build.gradle
+
+#projects
+!/src/
+
+
+#Github
+!/README.md
+!/LICENSE.md
+!.gitignore
+!.gitattributes
+
+#Other
+!/MakeFile
