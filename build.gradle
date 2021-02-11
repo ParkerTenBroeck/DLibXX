@@ -26,7 +26,7 @@ def m_built_date = System.currentTimeMillis()
 task generateVersion(){
 
     doLast(){
-        new File(projectDir, "Version").text =
+        new File(projectDir, "VERSION").text =
                 m_build_number + "\n"
                 m_build_number + "\n"
                 m_built_date
@@ -72,7 +72,7 @@ task generateRelease(){
         file("$buildDir/libs/$rootProject.name" + ".jar").renameTo("$buildDir/release/$rootProject.name" + ".jar")
 
         //add version
-        file("$rootDir/Version").renameTo("$buildDir/release/Version")
+        file("$rootDir/VERSION").renameTo("$buildDir/release/VERSION")
 
         //add javadoc
         file("$buildDir/docs/javadoc.zip").renameTo("$buildDir/release/javadoc.zip")
