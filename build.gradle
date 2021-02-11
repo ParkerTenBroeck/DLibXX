@@ -10,14 +10,81 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+    id 'java'
 }
 
 repositories {
     // Use JCenter for resolving dependencies.
-    jcenter()
+    mavenCentral()
 }
 
 mainClassName = 'Main.Main'
+def m_version_number = '1.3.3'
+def m_build_number = '183'
+def m_built_date = System.currentTimeMillis()
+
+task generateVersion(){
+
+    doLast(){
+        new File(projectDir, "Version").text =
+                m_build_number + "\n"
+                m_build_number + "\n"
+                m_built_date
+    }
+}
+build.finalizedBy(generateVersion)
+
+
+//zip java doc
+task zipJavaDoc(type: Zip) {
+    archiveFileName = "javadoc.zip"
+    destinationDirectory = file("$buildDir/docs")
+    include "*"
+    from "$buildDir/docs/javadoc"
+}
+zipJavaDoc.dependsOn(javadoc)
+
+//zip source doc
+task zipSource(type: Zip) {
+    doFirst{
+        mkdir(new File(buildDir, "source"))
+    }
+    archiveFileName = "source.zip"
+    destinationDirectory = file("$buildDir/source")
+
+    from "$rootDir"
+    include "/src"
+    include "/gradle"
+    include "/gradlew"
+    include "/gradle.bat"
+    include "/build.gradle"
+    include "/settings.gradle"
+    include "/README.md"
+    include "/LICENSE"
+}
+
+task generateRelease(){
+    doFirst{
+        mkdir(new File(buildDir, "release"))
+    }
+    doLast{
+        //add bin
+        file("$buildDir/libs/$rootProject.name" + ".jar").renameTo("$buildDir/release/$rootProject.name" + ".jar")
+
+        //add version
+        file("$rootDir/Version").renameTo("$buildDir/release/Version")
+
+        //add javadoc
+        file("$buildDir/docs/javadoc.zip").renameTo("$buildDir/release/javadoc.zip")
+
+        //add source
+        file("$buildDir/source/source.zip").renameTo("$buildDir/release/source.zip")
+    }
+}
+generateRelease.dependsOn(build)
+generateRelease.dependsOn(generateVersion)
+generateRelease.dependsOn(zipJavaDoc)
+generateRelease.dependsOn(zipSource)
 
 if (!hasProperty('mainClass')) {
     ext.mainClass = mainClassName
@@ -28,19 +95,21 @@ jar {
         attributes(
                'Main-Class': mainClassName
         )
+        attributes(
+                'version': m_version_number
+        )
+        attributes(
+                'build' : m_build_number
+        )
+        attributes(
+                'built' : m_built_date
+        )
     }
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
-dependencies {
-    // Use JUnit test framework.
-    testImplementation 'junit:junit:4.13'
-
-    // This dependency is used by the application.
-    implementation 'com.google.guava:guava:29.0-jre'
-}
 
 application {
     // Define the main class for the application.

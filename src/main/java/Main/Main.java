@@ -1,18 +1,24 @@
 package Main;
 
-import DLibX.*;
-import DLibX.util.*;
-import java.io.*;
-import java.nio.*;
-import java.nio.channels.*;
-import java.net.*;
-import java.util.*;
-import java.util.regex.*;
-import java.awt.*;
-import java.awt.geom.*;
+
+import DLibX.DCanvas;
+import DLibX.util.BezierCurve;
+
 import javax.swing.*;
-import javax.swing.border.*;
+import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.util.*;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main { // this is all probably buggy, sorry
     public static void main(String[] args) {
@@ -21,7 +27,6 @@ public class Main { // this is all probably buggy, sorry
             public void run() {
                 try {
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                    // UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -175,7 +180,7 @@ public class Main { // this is all probably buggy, sorry
             b.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        URL url = new URL("https://bitbucket.org/phinet/dlibx/downloads/VERSION");
+                        URL url = new URL("https://bitbucket.org/Parker1105/dlibxx/downloads/VERSION");
                         ReadableByteChannel ch = Channels.newChannel(url.openStream());
                         Scanner sc = new Scanner(ch);
                         if (sc.nextInt() > Version.this.build) {
@@ -192,12 +197,25 @@ public class Main { // this is all probably buggy, sorry
             });
 
             {
-                InputStream in = Main.class.getResourceAsStream("/Main/VERSION");
-                Scanner sc = new Scanner(in);
-                build = sc.nextInt();
-		version = sc.next();
-                built = (new Date(sc.nextLong()*1000)).toString();
-                sc.close();
+                InputStream in = Main.class.getResourceAsStream("/META-INF/MANIFEST.MF");
+                try {
+                    Manifest manifest = new Manifest(in);
+                    Attributes a = manifest.getMainAttributes();
+                    String v = a.getValue("build");
+                    build = Integer.parseInt(v);
+                    version = a.getValue("version");
+                    built = (new Date(Long.parseLong(a.getValue("built")))).toString();
+
+                } catch (IOException e) {
+                    System.err.println("Cannot read version information aborting");
+                    System.exit(0);
+                }finally {
+                    try {
+                        in.close();
+                    }catch(Exception e){
+
+                    }
+                }
             }
 
             t.setBackground(Color.WHITE);
@@ -211,7 +229,7 @@ public class Main { // this is all probably buggy, sorry
                 updates = "\n\nNo updates available.";
                 break;
             case 1:
-                updates = "\n\nUpdates available!\nGoto https://bitbucket.org/phinet/dlibx/ to download.";
+                updates = "\n\nUpdates available!\nGoto https://bitbucket.org/Parker1105/dlibxx/ to download.";
                 break;
             case 2:
                 updates = "\n\nCould not connect to server.";

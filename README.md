@@ -1,4 +1,4 @@
-# **DLibX**
+# **DLibXX**
 
 "What is this thing," you ask?
 This is a JAVA library created to simplify the process of creating a game, by efficiently handling all user input and all drawing without the need to touch the ugly JAVA graphics API.
@@ -7,12 +7,21 @@ This is a JAVA library created to simplify the process of creating a game, by ef
 
 Build instructions:
 
-    make compile  -> compile to bin directory (java 7 minimum)
-    make document -> generate javadoc in doc directory
-    make package  -> package for release
-    make test     -> run tests
+    gradlew build    -> compile and build to bin directory
+	gradlew run 	 -> compile and run
+    gradlew javadoc  -> generate javadoc in doc directory
+    gradlew test     -> run tests
+	generateRelease  -> compiles and builds zips source and javadoc and creates a version all at once
+	zipJavaDoc		 -> zips javadoc
+	zipSource 		 -> zips source
+	generateVersion  -> creates a version file
+	
 
 ## **Changelog**
+
+### 1.3.3
+-registerFont(InputStream) is now accepted
+-updates will come from this fork
 
 ### 1.3.2
 - fillArc() now fills arcs
