@@ -20,8 +20,8 @@ Build instructions:
 ## **Changelog**
 
 ### 1.3.3
--registerFont(InputStream) is now accepted
--updates will come from this fork
+--registerFont(InputStream) is now accepted
+--updates will come from this fork
 
 ### 1.3.2
 - fillArc() now fills arcs
