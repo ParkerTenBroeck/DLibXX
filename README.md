@@ -85,9 +85,9 @@ Build instructions:
 
 - Initial release
 
-[dl-p]: https://bitbucket.org/phinet/dlibx/downloads/DLibX-current.zip
-[dl-pi]: https://bitbucket.org/phinet/dlibx/downloads/download-package.png "Download Package"
-[dl-j]: https://bitbucket.org/phinet/dlibx/downloads/DLibX.jar
+[dl-p]: https://bitbucket.org/Parker1105/dlibxx/downloads/source.zip
+[dl-pi]: https://bitbucket.org/phinet/dlibx/downloads/download-package.png "Download Source"
+[dl-j]: https://bitbucket.org/Parker1105/dlibxx/downloads/DLibXX.jar
 [dl-ji]: https://bitbucket.org/phinet/dlibx/downloads/download-jar.png "Download Jar"
-[dl-d]: https://bitbucket.org/phinet/dlibx/downloads/DLibX-Documentation.zip
+[dl-d]: https://bitbucket.org/Parker1105/dlibxx/downloads/javadoc.zip
 [dl-di]: https://bitbucket.org/phinet/dlibx/downloads/download-documentation.png "Download Documentation"
